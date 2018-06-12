@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon"
+    "start": "babel-node index --presets=env",
+    "dev": "babel-node index --presets=env",
+    "bot": "babel-node ./bot/index --presets=env"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "node-telegram-bot-api": "^0.30.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "nodemon": "^1.17.5"
   }
 }
