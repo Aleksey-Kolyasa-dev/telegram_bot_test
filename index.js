@@ -1,18 +1,16 @@
 'use strict';
-const express = require('express');
-const { config } = require('./config');
-const { BotInit } = require('./bot/');
-const api = require('./routes/api');
-let NODE_ENV = process.env.NODE_ENV || 'development';
+import express from 'express';
+import { config } from './config';
+import api from './routes/api';
 
 const app = express();
+app.use(express.json());
 
 // Routes
 app.use('/api', api);
 
 app.listen(config.port, function () {
 	console.log(`app is running at port ${config.port}`);
-	BotInit();
 });
 
 // error handler

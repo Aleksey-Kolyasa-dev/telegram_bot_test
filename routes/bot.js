@@ -1,8 +1,7 @@
 'use strict';
 const Router = require('express').Router();
-const ctrl = require('../controllers/bot.controller');
+import { onMessage } from '../controllers/bot.controller';
 
-
-Router.post('/bot', ctrl.onMessage);
+Router.post('/', onMessage);
 
 module.exports = Router;

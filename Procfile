@@ -1,1 +1,1 @@
-web: babel-node index --presets=env
+web: npm start

@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index --presets=env",
-    "dev": "babel-node index --presets=env",
+    "start": "cross-env NODE_ENV=production babel-node index --presets=env",
+    "dev": "cross-env DEBUG=node-telegram-bot-api cross-env NODE_ENV=development babel-node index --presets=env",
     "bot": "babel-node ./bot/index --presets=env",
     "lint": "eslint index.js config controllers models routes utils bot"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cross-env": "^5.2.0",
     "express": "^4.16.3",
     "node-telegram-bot-api": "^0.30.0"
   },
