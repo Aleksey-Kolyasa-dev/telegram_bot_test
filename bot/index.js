@@ -1,12 +1,11 @@
 'use strict';
 import TelegramBot from 'node-telegram-bot-api';
-import CONFIG from '../config';
+const { config } = require('../config');
 
-const TOKEN = new CONFIG().getToken();
 let flag = false;
 
 exports.BotInit = () => {
-	const bot = new TelegramBot(TOKEN, { polling: true });
+	const bot = new TelegramBot(config.bot.token, { polling: true });
 
 	// bot.onText(/привет (.+)/i, (msg, [source, match]) => {
 	// 	const { chat: { id } } = msg;

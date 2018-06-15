@@ -1,14 +1,12 @@
 "use strict";
 const express = require('express');
-import CONFIG from './config';
-
+const { config } = require('./config');
 const { BotInit } = require('./bot/');
-const port = new CONFIG().getPort();
 
 
 const app = express();
-app.listen(port, function () {
-	console.log(`app is running at port ${port}`);
+app.listen(config.port, function () {
+	console.log(`app is running at port ${config.port}`);
 	BotInit();
 });
 
