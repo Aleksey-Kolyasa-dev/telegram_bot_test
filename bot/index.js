@@ -1,8 +1,8 @@
 'use strict';
 import TelegramBot from 'node-telegram-bot-api';
+
 const { config } = require('../config');
 
-let flag = false;
 
 exports.BotInit = () => {
 	const bot = new TelegramBot(config.bot.token, { polling: true });
@@ -12,77 +12,48 @@ exports.BotInit = () => {
 	// 	bot.sendMessage(id, `Привет, дорогой ${msg.from.first_name} :-) !`);
 	// });
 
-	bot.onText(/привет/i, (msg, [source, match]) => {
-		const { chat: { id } } = msg;
-		if (flag) return;
-		bot.sendMessage(id, `Привет, дорогой ${msg.from.first_name} :-) !`);
-		flag = true;
-	});
+	bot.on('message', (msg) => {
+		const { chat: { id }, text } = msg;
+		switch (true) {
+			case new RegExp('привет|здравствуй|hi|hello|hey', 'i').test(text) === true:
+				bot.sendMessage(id, `Привет, дорогой ${msg.from.first_name} :-) !`);
+				break;
 
-	bot.onText(/кто/i, (msg, [source, match]) => {
-		const { chat: { id } } = msg;
-		if (flag) return;
-		bot.sendMessage(id, `Я - Теле-Теле-Бот, живу на https://www.heroku.com/ сервере, меня создал и посадил сюда Алексей, ты наверное знаешь его. Сейчас я работаю в демо-режиме`);
-		flag = true;
-	});
+			case new RegExp('кто', 'i').test(text) === true:
+				bot.sendMessage(id, `
+				Я - Теле-Теле-Бот, живу на https://www.heroku.com/ сервере. 
+				Меня создал и посадил сюда Алексей, ты наверное знаешь его. 
+				Сейчас я работаю в демо-режиме.
+				`);
+				break;
 
-	bot.onText(/зовут/i, (msg, [source, match]) => {
-		const { chat: { id } } = msg;
-		if (flag) return;
-		bot.sendMessage(id, `меня зовут - Теле-Теле-Бот.`);
-		flag = true;
-	});
+			case new RegExp('зовут|имя', 'i').test(text) === true:
+				bot.sendMessage(id, `меня зовут - Теле-Теле-Бот.`);
+				break;
 
-	bot.onText(/имя/i, (msg, [source, match]) => {
-		const { chat: { id } } = msg;
-		if (flag) return;
-		bot.sendMessage(id, `мое имя - Теле-Теле-Бот.`);
-		flag = true;
-	});
+			case new RegExp('пока|досвидания', 'i').test(text) === true:
+				bot.sendMessage(id, `До новых встреч, дорогой ${msg.from.first_name}!`);
+				break;
 
-	bot.onText(/пока/i, (msg, [source, match]) => {
-		const { chat: { id } } = msg;
-		if (flag) return;
-		bot.sendMessage(id, `До новых встреч, дорогой ${msg.from.first_name}!`);
-		flag = true;
-	});
+			case new RegExp('дела', 'i').test(text) === true:
+				bot.sendMessage(id, `У меня все хорошо, мне нравиться жизнь на heroku!`);
+				break;
 
-	bot.onText(/дела/i, (msg, [source, match]) => {
-		const { chat: { id } } = msg;
-		if (flag) return;
-		bot.sendMessage(id, `У меня все хорошо, жизнь на heroku мне пока нравиться)`);
-		flag = true;
-	});
+			case new RegExp('хуй', 'i').test(text) === true:
+				bot.sendMessage(id, `сам иди на @@@!`);
+				break;
 
-	bot.onText(/хуй/i, (msg, [source, match]) => {
-		const { chat: { id } } = msg;
-		if (flag) return;
-		bot.sendMessage(id, `сам иди на @@@!`);
-		flag = true;
-	});
+			case new RegExp('час|время|времени', 'i').test(text) === true:
+				bot.sendMessage(id, `без пяти как стрелки упали...`);
+				break;
 
-	bot.onText(/час/i, (msg, [source, match]) => {
-		const { chat: { id } } = msg;
-		if (flag) return;
-		bot.sendMessage(id, `без пяти как стрелки упали...`);
-		flag = true;
-	});
+			case new RegExp('погода', 'i').test(text) === true:
+				bot.sendMessage(id, `да разве я знаю, на heroku всегда солнечно и тело!`);
+				break;
 
-	bot.onText(/погода/i, (msg, [source, match]) => {
-		const { chat: { id } } = msg;
-		if (flag) return;
-		bot.sendMessage(id, `да разве я знаю, на heroku всегда солнечно и тело!`);
-		flag = true;
-	});
-
-	bot.on('message', msg => {
-		const { chat: { id } } = msg;
-		if (flag) {
-			flag = !flag;
-			return;
+			default:
+				bot.sendMessage(id, `${msg.from.first_name}: вот, что ты мне написал: "${text}"`);
+				break;
 		}
-		bot.sendMessage(id, `${msg.from.first_name}: вот, что ты мне написал: "${msg.text}"`);
 	});
 };
-
-
